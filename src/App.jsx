@@ -1,22 +1,24 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
-import AllBeersPage from "./pages/AllBeersPage";
-import RandomBeerPage from "./pages/RandomBeerPage";
-import AddBeerPage from "./pages/AddBeerPage";
-import BeerDetailsPage from "./pages/BeerDetailsPage";
+import { Route, Routes, Navigate } from 'react-router';
+import './App.css';
+import Home from "./components/Home"
+import Beers from "./components/Beers"
+import BeerDetails from "./components/BeerDetails"
+import RandomBeer from "./components/RandomBeer"
+import NewBeer from "./components/NewBeer"
+import NavBar from "./components/NavBar"
+
 
 function App() {
   return (
     <div className="App">
-    <Navbar />
+      <NavBar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/beers" element={<AllBeersPage />} />
-        <Route path="/random-beer" element={<RandomBeerPage />} />
-        <Route path="/new-beer" element={<AddBeerPage />} />
-        <Route path="/beers/:beerId" element={<BeerDetailsPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/beers" element={<Beers />} />
+        <Route path="/beers/:id" element={<BeerDetails />} />
+        <Route path="/random" element={<RandomBeer />} />
+        <Route path="/new" element={<NewBeer />} />
+        <Route path="*" element={<Navigate to="/home" replace/>} />
       </Routes>
     </div>
   );

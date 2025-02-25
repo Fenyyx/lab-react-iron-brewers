@@ -1,55 +1,55 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import beersJSON from "./../assets/beers.json";
+import React, { useState, useEffect } from "react"
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, Container } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { getRandomBeer } from "../services/BeerService"
+import { Link, useParams } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
+export default function Home() {
 
-function RandomBeersPage() {
-  // Mock initial state, to be replaced by data from the Beers API. Store the beer info retrieved from the Beers API in this state variable.
-  const [randomBeer, setRandomBeer] = useState(beersJSON[0]);
+    const [beer, setBeer] = useState({})
+    useEffect(() => {
+        getRandomBeer().then(beer => { setBeer(beer) })
+    }, [])
 
-  // React Router hook for navigation. We use it for the back button. You can leave this as it is.
-  const navigate = useNavigate();
-
-
-  
-  // TASKS:
-  // 1. Set up an effect hook to make a request for a random beer from the Beers API.
-  // 2. Use axios to make a HTTP request.
-  // 3. Use the response data from the Beers API to update the state variable.
-
-
-
-  // The logic and the structure for the page showing the random beer. You can leave this as it is.
-  return (
-    <div className="d-inline-flex flex-column justify-content-center align-items-center w-100 p-4">
-      <h2>Random Beer</h2>
-
-      {randomBeer && (
-        <>
-          <img
-            src={randomBeer.image_url}
-            alt="beer"
-            height="300px"
-            width="auto"
-          />
-          <h3>{randomBeer.name}</h3>
-          <p>{randomBeer.tagline}</p>
-          <p>Attenuation level: {randomBeer.attenuation_level}</p>
-          <p>Description: {randomBeer.description}</p>
-          <p>Created by: {randomBeer.contributed_by}</p>
-
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            Back
-          </button>
-        </>
-      )}
-    </div>
-  );
+    return (
+        <Container>
+            <Grid container spacing={2} pt={4}>
+                <Grid item xs={4}>
+                    {beer.name ? <Card sx={{ maxWidth: 345 }}>
+                        <Link to={`/beers/${beer._id}`} style={{ textDecoration: "none" }}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    height="250"
+                                    image={beer.image_url}
+                                    alt="img"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {beer.name}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {beer.tagline}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {beer.contributed_by}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Link>
+                    </Card> :
+                        <Box sx={{ display: 'flex' }}>
+                            <CircularProgress />
+                        </Box>
+                    }
+                </Grid>
+            </Grid>
+        </Container>
+    );
 }
-
-export default RandomBeersPage;

@@ -1,52 +1,89 @@
-import { Link } from "react-router-dom";
-import beersImg from "../assets/beers.png";
-import randomBeerImg from "../assets/random-beer.png";
-import newBeerImg from "../assets/new-beer.png";
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, Container } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import allBeers from "../assets/beers.png"
+import newBeer from "../assets/new-beer.png"
+import randomBeer from "../assets/random-beer.png"
+import { Link } from 'react-router-dom';
 
-function HomePage() {
-
-  // The home page showing the links to the 3 main pages of the app. You can leave this as it is.
-  return (
-    <>
-      <div
-        className="d-inline-flex flex-column justify-content-center align-items-center w-100 p-4"
-      >
-        <Link to="/beers">
-          <div className="card mb-2" style={{ width: "26rem" }}>
-            <img src={beersImg} className="card-img-top" alt="..." />
-            <div className="card-body">
-              <h3 className="card-title">All Beers</h3>
-              <p className="card-text">
-              Explore a collection of beers crafted by various brewers and breweries.
-              </p>
-            </div>
-          </div>
-        </Link>
-        <Link to="/random-beer">
-          <div className="card mb-2" style={{ width: "26rem" }}>
-            <img src={randomBeerImg} className="card-img-top" alt="..." />
-            <div className="card-body">
-              <h3 className="card-title">Random Beer</h3>
-              <p className="card-text">
-              Discover unique beers with intriguing details at random, one beer at a time.
-              </p>
-            </div>
-          </div>
-        </Link>
-        <Link to="/new-beer">
-          <div className="card" style={{ width: "26rem" }}>
-            <img src={newBeerImg} className="card-img-top" alt="..." />
-            <div className="card-body">
-              <h3 className="card-title">New Beer</h3>
-              <p className="card-text">
-              Unleash your inner brewmaster and share your latest creation with the brewing community.
-              </p>
-            </div>
-          </div>
-        </Link>
-      </div>
-    </>
-  );
+export default function Home() {
+    return (
+        <Container>
+            <Grid container spacing={2} pt={4}>
+                <Grid item xs={4}>
+                    <Card sx={{ maxWidth: 345 }}>
+                        <Link to="/beers" style={{ textDecoration: "none" }}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={allBeers}
+                                    alt="green iguana"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        All Beers
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Lizards are a widespread group of squamate reptiles, with over 6,000
+                                        species, ranging across all continents except Antarctica
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Link>
+                    </Card>
+                </Grid>
+                <Grid item xs={4}>
+                    <Card sx={{ maxWidth: 345 }}>
+                        <Link to="/random" style={{ textDecoration: "none" }}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={allBeers}
+                                    alt="green iguana"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        Random Beer
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Lizards are a widespread group of squamate reptiles, with over 6,000
+                                        species, ranging across all continents except Antarctica
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Link>
+                    </Card>
+                </Grid>
+                <Grid item xs={4}>
+                    <Card sx={{ maxWidth: 345 }}>
+                        <Link to="/new" style={{ textDecoration: "none" }}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={allBeers}
+                                    alt="green iguana"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        New Beer
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Lizards are a widespread group of squamate reptiles, with over 6,000
+                                        species, ranging across all continents except Antarctica
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Link>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Container>
+    );
 }
-
-export default HomePage;

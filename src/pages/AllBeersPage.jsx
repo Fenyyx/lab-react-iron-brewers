@@ -1,57 +1,58 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import Search from "../components/Search";
-import beersJSON from "./../assets/beers.json";
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, Container } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { getBeers } from "../services/BeerService"
+import { Link } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
+export default function Home() {
 
+    const [beers, setBeers] = React.useState([])
+    React.useEffect(() => {
+        getBeers().then(beers => setBeers(beers))
+    }, [])
 
-function AllBeersPage() {
-  // Mock initial state, to be replaced by data from the API. Once you retrieve the list of beers from the Beers API store it in this state variable.
-  const [beers, setBeers] = useState(beersJSON);
-
-
-
-  // TASKS:
-  // 1. Set up an effect hook to make a request to the Beers API and get a list with all the beers.
-  // 2. Use axios to make a HTTP request.
-  // 3. Use the response data from the Beers API to update the state variable.
-
-
-
-  // The logic and the structure for the page showing the list of beers. You can leave this as it is for now.
-  return (
-    <>
-      <Search />
-
-      <div className="d-inline-flex flex-wrap justify-content-center align-items-center w-100 p-4">
-        {beers &&
-          beers.map((beer, i) => {
-            return (
-              <div key={i}>
-                <Link to={"/beers/" + beer._id}>
-                  <div className="card m-2 p-2 text-center" style={{ width: "24rem", height: "18rem" }}>
-                    <div className="card-body">
-                      <img
-                        src={beer.image_url}
-                        style={{ height: "6rem" }}
-                        alt={"image of" + beer.name}
-                      />
-                      <h5 className="card-title text-truncate mt-2">{beer.name}</h5>
-                      <h6 className="card-subtitle mb-3 text-muted">
-                        <em>{beer.tagline}</em>
-                      </h6>
-                      <p className="card-text">
-                        Created by: {beer.contributed_by}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            );
-          })}
-      </div>
-    </>
-  );
+    return (
+        <Container>
+            <Grid container spacing={2} pt={4}>
+                {beers.length ?
+                    beers.map(({ _id, image_url, name, tagline, contributed_by }) => (
+                        <Grid item xs={4}>
+                            <Card sx={{ maxWidth: 345 }}>
+                                <Link to={`/beers/${_id}`} style={{ textDecoration: "none" }}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            component="img"
+                                            height="250"
+                                            image={image_url}
+                                            alt="img"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                                {name}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {tagline}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {contributed_by}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Link>
+                            </Card>
+                        </Grid>
+                    )) :
+                    <Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                    </Box>
+                }
+            </Grid>
+        </Container>
+    );
 }
-
-export default AllBeersPage;
